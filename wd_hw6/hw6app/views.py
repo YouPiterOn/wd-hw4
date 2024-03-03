@@ -44,15 +44,17 @@ def tree_main(request):
         return JsonResponse(serializer.errors, status=400, safe=False)
 
 
-@csrf_exempt
 def tree_by_id(request, pk):
     tree = get_object_or_404(Tree, pk=pk)
     serializer = TreeSerializer(tree)
     return JsonResponse(serializer.data, safe=False)
 
 
-@csrf_exempt
 def tree_delete(request, pk):
     tree = get_object_or_404(Tree, pk=pk)
     tree.delete()
     return JsonResponse({'success': 'Tree deleted successfully'}, status=204, safe=False)
+
+
+def handle_wrong_url(request, wrong_url):
+    return JsonResponse({'error': 'Page not found'}, status=404)
